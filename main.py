@@ -4,7 +4,7 @@ import nextcord                                 # pip install nextcord #
 from nextcord.ext import commands
 from nextcord import Intents
 
-
+import os
 
 # Define 'client' #
 
@@ -26,13 +26,14 @@ async def on_ready():
     )
 
 
-# Our first Command! #
-
-@client.command()
-async def test(ctx):
-    await ctx.send("Worked!")
+# Cog Loader #
+# Make sure you have a Folder called "cogs" in the same Folder as "main.py" #
+for filename in os.listdir("./cogs"):
+    if filename.endswith(".py"):
+        client.load_extension(f"cogs.{filename[:-3]}")
+        print(f"Loaded {filename}")
 
 
 # client.run #
 
-client.run(DISCORD_BOT_TOKEN)  # Run the Bot with your Bot Token #
+client.run(TOKEN)  # Run the Bot with your Bot Token #
